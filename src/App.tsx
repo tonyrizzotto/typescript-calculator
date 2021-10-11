@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Wrapper from './components/Wrapper';
 import Screen from './components/Screen';
 import ButtonBox from './components/ButtonBox';
 import Button from './components/Button';
 
-const btnValues = [
-  ['C', '+-', '%', '/'],
-  [7, 8, 9, 'X'],
-  [4, 5, 6, '-'],
-  [1, 2, 3, '+'],
-  [0, '.', '='],
-];
+import { numClickHander, btnValues } from './helpers';
 
 const App = () => {
+  const [calc, setCalc] = useState({
+    sign: '',
+    num: 0,
+    result: 0,
+  });
+  console.log(calc);
   return (
     <div>
       <Wrapper>
-        <Screen value={0} />
+        <Screen value={calc.num ? calc.num : calc.result} />
         <ButtonBox>
           {btnValues.flat().map((btn, i) => {
             return (
@@ -24,8 +24,18 @@ const App = () => {
                 key={i}
                 className={btn === '=' ? 'equals' : ''}
                 value={btn}
-                onClick={() => {
-                  console.log(`${btn} clicked!`);
+                onClick={(e) => {
+                  btn === 'C'
+                    ? setCalc({ ...calc, num: 0, sign: '' })
+                    : btn === '+' || btn === '-' || btn === 'X' || btn === '/'
+                    ? setCalc({ ...calc, sign: btn })
+                    : setCalc({
+                        ...calc,
+                        num:
+                          calc.num !== 0
+                            ? calc.num + numClickHander(e, calc.num)
+                            : numClickHander(e, calc.num),
+                      });
                 }}
               />
             );

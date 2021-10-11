@@ -1,6 +1,8 @@
+import React from 'react';
+
 export interface ButtonProps extends React.HTMLProps<JSX.Element> {
   key: any;
   className: string;
   value: any;
-  onClick: () => void;
+  onClick: (e: React.BaseSyntheticEvent) => any;
 }
