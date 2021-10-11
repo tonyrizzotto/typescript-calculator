@@ -4,19 +4,20 @@ import Screen from './components/Screen';
 import ButtonBox from './components/ButtonBox';
 import Button from './components/Button';
 
-import { numClickHander, btnValues } from './helpers';
+import { numClickHander, equalsHandler, btnValues } from './helpers';
 
 const App = () => {
   const [calc, setCalc] = useState({
     sign: '',
-    num: 0,
-    result: 0,
+    num: '0',
+    prevNum: 0,
+    result: '0',
   });
   console.log(calc);
   return (
     <div>
       <Wrapper>
-        <Screen value={calc.num ? calc.num : calc.result} />
+        <Screen value={calc.num === '0' ? calc.result : calc.num} />
         <ButtonBox>
           {btnValues.flat().map((btn, i) => {
             return (
@@ -25,16 +26,46 @@ const App = () => {
                 className={btn === '=' ? 'equals' : ''}
                 value={btn}
                 onClick={(e) => {
+                  e.preventDefault();
                   btn === 'C'
-                    ? setCalc({ ...calc, num: 0, sign: '' })
-                    : btn === '+' || btn === '-' || btn === 'X' || btn === '/'
-                    ? setCalc({ ...calc, sign: btn })
-                    : setCalc({
+                    ? setCalc({
+                        ...calc,
+                        num: '0',
+                        prevNum: 0,
+                        sign: '',
+                        result: '0',
+                      })
+                    : // Detect a method hit
+                    btn === '+' || btn === '-' || btn === 'X' || btn === '/'
+                    ? setCalc({
+                        ...calc,
+                        prevNum:
+                          calc.result !== '0'
+                            ? Number(calc.result)
+                            : Number(calc.num),
+                        sign: btn,
+                        num: '0',
+                      })
+                    : // detect if equals was hit
+                    btn === '='
+                    ? setCalc({
+                        ...calc,
+                        result: equalsHandler(
+                          calc.prevNum,
+                          // num is always the 2nd number
+                          calc.num,
+                          calc.sign
+                        ),
+                        num: '0',
+                      })
+                    : // Otherwise set the display to the proper number
+                      setCalc({
                         ...calc,
                         num:
-                          calc.num !== 0
-                            ? calc.num + numClickHander(e, calc.num)
-                            : numClickHander(e, calc.num),
+                          calc.num !== '0'
+                            ? calc.num +
+                              numClickHander(e.target.innerHTML).toString()
+                            : numClickHander(e.target.innerHTML).toString(),
                       });
                 }}
               />
