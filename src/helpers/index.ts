@@ -51,6 +51,20 @@ export function percentageHandler(num1: number, num2: string): string {
   return result;
 }
 
+/**
+ *
+ * @description Adds a '.' into the number.
+ * @returns a string with the . appended to it
+ */
+export function decimalHandler(num: string): string {
+  if (num.includes('.')) {
+    return num;
+  } else {
+    num += '.';
+    return num;
+  }
+}
+
 // An array of characters for the calculator buttons
 export const btnValues = [
   ['C', '+-', '%', '/'],

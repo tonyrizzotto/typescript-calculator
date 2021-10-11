@@ -8,6 +8,7 @@ import {
   numClickHander,
   equalsHandler,
   percentageHandler,
+  decimalHandler,
   btnValues,
 } from './helpers';
 
@@ -51,6 +52,9 @@ const App = () => {
                         sign: btn,
                         num: '0',
                       })
+                    : // detect if a decimal should be added
+                    btn === '.'
+                    ? setCalc({ ...calc, num: decimalHandler(calc.num) })
                     : // detect percentage hit. Num is the % of the prevNum
                     btn === '%'
                     ? setCalc({
