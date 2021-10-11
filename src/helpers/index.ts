@@ -2,6 +2,10 @@ export function numClickHander(num: any) {
   return Number(num);
 }
 
+/**
+ * @description Processes all mathmatical functions as expected while handing type manipulations.
+ * @returns a calculated number converted to a string
+ */
 export function equalsHandler(
   num1: number,
   num2: string,
@@ -30,6 +34,21 @@ export function equalsHandler(
   }
 
   return result.toString();
+}
+
+/**
+ * @description computes the percentage of a number and returns the value based on the previous number.
+ * @returns a number converted to a string
+ */
+export function percentageHandler(num1: number, num2: string): string {
+  let result: string = '';
+
+  const convertedNum2 = Number(num2);
+  const percentageNum = convertedNum2 / Math.pow(10, 2);
+  // num1 is the first number / num2 the percentage
+  result = (num1 * percentageNum).toString();
+
+  return result;
 }
 
 // An array of characters for the calculator buttons

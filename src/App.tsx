@@ -4,7 +4,12 @@ import Screen from './components/Screen';
 import ButtonBox from './components/ButtonBox';
 import Button from './components/Button';
 
-import { numClickHander, equalsHandler, btnValues } from './helpers';
+import {
+  numClickHander,
+  equalsHandler,
+  percentageHandler,
+  btnValues,
+} from './helpers';
 
 const App = () => {
   const [calc, setCalc] = useState({
@@ -45,6 +50,12 @@ const App = () => {
                             : Number(calc.num),
                         sign: btn,
                         num: '0',
+                      })
+                    : // detect percentage hit. Num is the % of the prevNum
+                    btn === '%'
+                    ? setCalc({
+                        ...calc,
+                        num: percentageHandler(calc.prevNum, calc.num),
                       })
                     : // detect if equals was hit
                     btn === '='
