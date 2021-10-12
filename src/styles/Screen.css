@@ -10,6 +10,9 @@
   justify-content: flex-end;
   color: white;
   font-weight: bold;
-  font-size: 42px;
   box-sizing: border-box;
+}
+
+#screen-display {
+  font-size: 50px;
 }

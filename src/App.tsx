@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from './components/Wrapper';
 import Screen from './components/Screen';
 import ButtonBox from './components/ButtonBox';
@@ -19,7 +19,13 @@ const App = () => {
     prevNum: 0,
     result: '0',
   });
-  console.log(calc);
+  useEffect(() => {
+    if (calc.num.length >= 11) {
+      alert('Easy big fella, thems big numbers!');
+      setCalc({ ...calc, num: calc.num.substring(0, calc.num.length - 1) });
+    }
+  }, [calc]);
+  //console.log(calc);
   return (
     <div>
       <Wrapper>
