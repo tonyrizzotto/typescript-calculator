@@ -67,6 +67,14 @@ const App = () => {
                         ...calc,
                         num: percentageHandler(calc.prevNum, calc.num),
                       })
+                    : // detect inverted number
+                    btn === '+-'
+                    ? setCalc({
+                        ...calc,
+                        num: calc.num
+                          ? (Number(calc.num) * -1).toString()
+                          : '0',
+                      })
                     : // detect if equals was hit
                     btn === '='
                     ? setCalc({
